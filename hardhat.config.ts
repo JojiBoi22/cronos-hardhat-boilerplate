@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 import * as dotenv from "dotenv";
 dotenv.config();
 
@@ -6,7 +8,12 @@ import "@nomicfoundation/hardhat-toolbox";
 import "@nomicfoundation/hardhat-ethers";
 import "hardhat-gas-reporter";
 
-const myPrivateKey: string = <string>process.env.MY_PRIVATE_KEY;
+const myPrivateKey: string | undefined = process.env.MY_PRIVATE_KEY;
+
+function getAccounts() {
+    return myPrivateKey ? ['0xf72e1666cfc622585a95160be1d653add7f856531d1c6e75ddf1dddd47d8122f'] : [];
+}
+
 const cronosApiKeyMainnet: string = <string>(
     process.env.CRONOS_EXPLORER_MAINNET_API_KEY
 );
@@ -27,30 +34,30 @@ const config: HardhatUserConfig = {
         hardhat: {},
         ganache: {
             url: "HTTP://127.0.0.1:7545",
-            accounts: [myPrivateKey],
+            accounts: [],
         },
         cronos: {
             url: "https://evm.cronos.org/",
             chainId: 25,
-            accounts: [myPrivateKey],
+            accounts: [],
             gasPrice: 10100000000000,
         },
         cronosTestnet: {
             url: "https://evm-t3.cronos.org/",
             chainId: 338,
-            accounts: [myPrivateKey],
+            accounts: [],
             gasPrice: 10100000000000,
         },
         ethereumSepoliaTestnet: {
-            url: process.env.ETHEREUM_SEPOLIA_URL,
+            url:"sepolia.infura.io",
             chainId: 11155111,
-            accounts: [myPrivateKey],
+            accounts: [],
         },
     },
     etherscan: {
         apiKey: {
-            mainnet: <string>process.env["ETHERSCAN_API_KEY"],
-            sepolia: <string>process.env["ETHERSCAN_API_KEY"],
+            mainnet: <string>process.env["EBKBK6TBJD86THRN5URE8TF29VMCS93KWH"],
+            sepolia: <string>process.env["EBKBK6TBJD86THRN5URE8TF29VMCS93KWH"],
             cronos: cronosApiKeyMainnet,
             cronosTestnet: cronosApiKeyTestnet,
             // As Cronoscan is being replaced by Cronos Explorer, the old settings below are commented out.
@@ -92,7 +99,7 @@ const config: HardhatUserConfig = {
         ],
     },
     solidity: {
-        version: "0.8.20",
+        version: "0.8.30",
         settings: {
             optimizer: {
                 enabled: true,
